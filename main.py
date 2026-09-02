@@ -21,7 +21,7 @@ PORT = int(environ.get("PORT", 10000))
 
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s | ❤️ UA-LOVEBOT-DAVINCHIK | %(levelname)s | %(message)s",
+    format="%(asctime)s | ❤️ UA-LOVEBOT-100 | %(levelname)s | %(message)s",
     stream=sys.stdout
 )
 
@@ -29,36 +29,104 @@ bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTM
 dp = Dispatcher()
 router = Router()
 
-# Бази даних в оперативній пам'яті зі стартовими демо-анкетами в стилі Дайвінчика
+# Велика база із понад 100 демо-анкет (хлопці та дівчата з різних міст України)
 USERS_DB = {
-    1001: {
-        "name": "Софія", 
-        "age": 20, 
-        "city": "Київ", 
-        "photo_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=60", 
-        "bio": "Шукаю приємну людину на каву у Києві ☕️ Люблю гуляти центром та слухати музику.", 
-        "is_vip": False, 
-        "likes_received": 3
-    },
-    1002: {
-        "name": "Максим", 
-        "age": 23, 
-        "city": "Львів", 
-        "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60", 
-        "bio": "Працюю, створюю код, у вільний час вивчаю нові місця у Львові. Завжди за добрий кіновечір.", 
-        "is_vip": False, 
-        "likes_received": 5
-    },
-    1003: {
-        "name": "Анна", 
-        "age": 21, 
-        "city": "Одеса", 
-        "photo_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=60", 
-        "bio": "Одеситка, обожнюю море, захід сонця і довгі розмови ні про що ✨", 
-        "is_vip": False, 
-        "likes_received": 2
-    }
+    # Дівчата (Київ)
+    3001: {"name": "Софія", "age": 20, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=60", "bio": "Шукаю приємну людину на каву у Києві ☕️ Люблю гуляти центром та слухати музику.", "is_vip": False, "likes_received": 12},
+    3002: {"name": "Анастасія", "age": 21, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&auto=format&fit=crop&q=60", "bio": "Люблю затишні кав'ярні та настільні ігри. Хто зі мною в «Уно»?", "is_vip": False, "likes_received": 14},
+    3003: {"name": "Карина", "age": 19, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=60", "bio": "Студентка КПІ, вивчаю дизайн, шукаю цікавих співрозмовників ✨", "is_vip": False, "likes_received": 8},
+    3004: {"name": "Марія", "age": 23, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60", "bio": "Маркетолог, обожнюю вечірні пробіжки на Дніпровській набережній 🏃‍♀️", "is_vip": False, "likes_received": 22},
+    3005: {"name": "Аліна", "age": 22, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=60", "bio": "Фотографую місто та людей на плівку. Завжди за творчі колаборації.", "is_vip": False, "likes_received": 19},
+    3006: {"name": "Дарина", "age": 20, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1525130413817-d45c1d127c42?w=600&auto=format&fit=crop&q=60", "bio": "Вірю в хорошу музику та щирих людей. Родом з Житомира, живу в Києві.", "is_vip": False, "likes_received": 7},
+    3007: {"name": "Єлизавета", "age": 24, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&auto=format&fit=crop&q=60", "bio": "Архітекторка. Люблю старий Київ та смачну матчу.", "is_vip": False, "likes_received": 16},
+    3008: {"name": "Поліна", "age": 18, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&auto=format&fit=crop&q=60", "bio": "Першокурсниця, шукаю компанію для походів у кіно та на виставки.", "is_vip": False, "likes_received": 11},
+    3009: {"name": "Христина", "age": 25, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=60", "bio": "Люблю гори, але зараз живу на Подолі. Пишіть, поп'ємо кави.", "is_vip": False, "likes_received": 25},
+    3010: {"name": "Вікторія", "age": 21, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&auto=format&fit=crop&q=60", "bio": "Працюю в IT, граю на ukulele у вільний час 🎶", "is_vip": False, "likes_received": 13},
+
+    # Хлопці (Київ)
+    3011: {"name": "Максим", "age": 23, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60", "bio": "IT-спеціаліст, люблю велопрогулянки та смачну піцу.", "is_vip": False, "likes_received": 9},
+    3012: {"name": "Дмитро", "age": 25, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=60", "bio": "Займаюсь спортом, люблю каву та подорожі Україною 🇺🇦", "is_vip": False, "likes_received": 15},
+    3013: {"name": "Андрій", "age": 24, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&auto=format&fit=crop&q=60", "bio": "Автомобілі, музика, вечірні дороги. Шукаю гарну співрозмовницю.", "is_vip": False, "likes_received": 11},
+    3014: {"name": "Артем", "age": 26, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop&q=60", "bio": "Фотограф, залюбки зроблю гарні кадри для твого інстаграму.", "is_vip": False, "likes_received": 18},
+    3015: {"name": "Денис", "age": 22, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=600&auto=format&fit=crop&q=60", "bio": "Студент-могилянець, читаю історію, колектую вініл.", "is_vip": False, "likes_received": 6},
+    3016: {"name": "Євген", "age": 27, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=60", "bio": "Інженер, створюю круті речі своїми руками. Завжди за активний відпочинок.", "is_vip": False, "likes_received": 10},
+    3017: {"name": "Іван", "age": 21, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?w=600&auto=format&fit=crop&q=60", "bio": "Геймер, геймдев, люблю настілки та якісний крафт.", "is_vip": False, "likes_received": 5},
+    3018: {"name": "Владислав", "age": 25, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1521119989659-a83eee488004?w=600&auto=format&fit=crop&q=60", "bio": "Працюю у фінансах, у вільний час граю у футбол на Сирці.", "is_vip": False, "likes_received": 12},
+    3019: {"name": "Михайло", "age": 23, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&auto=format&fit=crop&q=60", "bio": "Архітектура, урбаністика, кава в турці. Погнали гуляти?", "is_vip": False, "likes_received": 8},
+    3020: {"name": "Станіслав", "age": 28, "city": "Київ", "photo_url": "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=600&auto=format&fit=crop&q=60", "bio": "Підприємець. Шукаю людину для душевних розмов за бокалом вина.", "is_vip": False, "likes_received": 20},
+
+    # Львів (Хлопці та дівчата)
+    3021: {"name": "Оксана", "age": 21, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=60", "bio": "Львів'янка, люблю дощ, бруківку та кав'ярні біля Оперного ☕️", "is_vip": False, "likes_received": 17},
+    3022: {"name": "Маркіян", "age": 24, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=60", "bio": "Гірський туризм, Карпати — моє все. Шукаю напарника в похід.", "is_vip": False, "likes_received": 14},
+    3023: {"name": "Соломія", "age": 20, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=60", "bio": "Студентка ЛНУ, пишу вірші, п'ю багато капучино.", "is_vip": False, "likes_received": 21},
+    3024: {"name": "Тарас", "age": 26, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60", "bio": "Програміст із тихим характером. Люблю затишні дворики Львова.", "is_vip": False, "likes_received": 11},
+    3025: {"name": "Ірина", "age": 22, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60", "bio": "Дизайнер інтер'єрів. Створюю красу навколо себе.", "is_vip": False, "likes_received": 16},
+    3026: {"name": "Назар", "age": 23, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=60", "bio": "Барбер, музикант, завжди на позитиві.", "is_vip": False, "likes_received": 9},
+    3027: {"name": "Марта", "age": 19, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&auto=format&fit=crop&q=60", "bio": "Обожнюю кіно під відкритим небом та тетіс.", "is_vip": False, "likes_received": 12},
+    3028: {"name": "Юрій", "age": 25, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&auto=format&fit=crop&q=60", "bio": "Працюю в логістиці, у вільний час катаюсь на сноуборді.", "is_vip": False, "likes_received": 15},
+    3029: {"name": "Тетяна", "age": 24, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&auto=format&fit=crop&q=60", "bio": "Вивчаю психологію та іноземні мови.", "is_vip": False, "likes_received": 18},
+    3030: {"name": "Олег", "age": 22, "city": "Львів", "photo_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop&q=60", "bio": "Студент Політехніки, люблю створювати сайти та грати на бас-гітарі.", "is_vip": False, "likes_received": 13},
+
+    # Одеса (Хлопці та дівчата)
+    3031: {"name": "Анна", "age": 21, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=60", "bio": "Одеситка, обожнюю море, захід сонця і довгі розмови ні про що ✨", "is_vip": False, "likes_received": 24},
+    3032: {"name": "Артур", "age": 25, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=60", "bio": "Море, пляж, хороша музика. Живу біля Аркадії.", "is_vip": False, "likes_received": 16},
+    3033: {"name": "Катерина", "age": 22, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=60", "bio": "Морський повітряний вайб і творчість. Малюю аквареллю.", "is_vip": False, "likes_received": 19},
+    3034: {"name": "Кирило", "age": 24, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60", "bio": "Мореход, часом буваю в рейсах, але зараз на суходолі. Шукаю дівчину для кави.", "is_vip": False, "likes_received": 14},
+    3035: {"name": "Світлана", "age": 20, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60", "bio": "Студентка Мечникова, люблю гуляти Дерибасівською вечорами.", "is_vip": False, "likes_received": 11},
+    3036: {"name": "Богдан", "age": 23, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=60", "bio": "Відеограф, знімаю круті кліпи та рекламні ролики.", "is_vip": False, "likes_received": 17},
+    3037: {"name": "Валерія", "age": 23, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=60", "bio": "Люблю одеський гумор, смачну їжу та хороші компанії.", "is_vip": False, "likes_received": 22},
+    3038: {"name": "Тимур", "age": 26, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&auto=format&fit=crop&q=60", "bio": "IT, маркетинг, серфінг (коли є хвилі).", "is_vip": False, "likes_received": 12},
+    3039: {"name": "Олена", "age": 19, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&auto=format&fit=crop&q=60", "bio": "Студентка, танцюю контемпорарі.", "is_vip": False, "likes_received": 15},
+    3040: {"name": "Гліб", "age": 25, "city": "Одеса", "photo_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop&q=60", "bio": "Архітектор, відновлюємо старі одеські дворики.", "is_vip": False, "likes_received": 10},
+
+    # Харків, Дніпро та інші міста (ще 60+ анкет для масовості)
+    3041: {"name": "Вікторія", "age": 19, "city": "Харків", "photo_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60", "bio": "Студентка з Харкова, малюю картини за номерами.", "is_vip": False, "likes_received": 9},
+    3042: {"name": "Микола", "age": 22, "city": "Харків", "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60", "bio": "Програміст, люблю парк Горького та каву.", "is_vip": False, "likes_received": 8},
+    3043: {"name": "Юлія", "age": 21, "city": "Дніпро", "photo_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=60", "bio": "Дніпрянка, набережна — улюблене місце для прогулянок.", "is_vip": False, "likes_received": 13},
+    3044: {"name": "Сергій", "age": 24, "city": "Дніпро", "photo_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=60", "bio": "Інженер, займаюсь бадмінтоном та плаванням.", "is_vip": False, "likes_received": 11},
+    3045: {"name": "Анастасія", "age": 22, "city": "Запоріжжя", "photo_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=60", "bio": "Хортиця, вітер, затишні вечори.", "is_vip": False, "likes_received": 14},
+    3046: {"name": "Роман", "age": 25, "city": "Запоріжжя", "photo_url": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&auto=format&fit=crop&q=60", "bio": "Автомобіліст, люблю довгі поїздки.", "is_vip": False, "likes_received": 7},
+    3047: {"name": "Зряна", "age": 20, "city": "Івано-Франківськ", "photo_url": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=60", "bio": "Франківськ, кава, гори і гарний настрій.", "is_vip": False, "likes_received": 16},
+    3048: {"name": "Павло", "age": 23, "city": "Івано-Франківськ", "photo_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop&q=60", "bio": "Люблю Карпати та рок-музику.", "is_vip": False, "likes_received": 10},
+    3049: {"name": "Людмила", "age": 23, "city": "Вінниця", "photo_url": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&auto=format&fit=crop&q=60", "bio": "Фонтан Roshen, затишне місто, шукаю цікавих людей.", "is_vip": False, "likes_received": 12},
+    3050: {"name": "Вадим", "age": 26, "city": "Вінниця", "photo_url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=60", "bio": "Фітнес-тренер, веду активний спосіб життя.", "is_vip": False, "likes_received": 18},
+    
+    # Додаємо ще 50 універсальних профілів для повної масивності бази (IDs 3051 - 3100)
 }
+
+# Автоматичне заповнення бази до 100+ анкет, щоб стрічка була невичерпною
+names_pool = ["Оля", "Максим", "Наталя", "Андрій", "Катерина", "Дмитро", "Ірина", "Богдан", "Світлана", "Олег", "Юлія", "Віктор", "Марина", "Євген", "Тетяна", "Станіслав"]
+cities_pool = ["Київ", "Львів", "Одеса", "Харків", "Дніпро", "Запоріжжя", "Івано-Франківськ", "Вінниця", "Чернівці", "Полтава"]
+photos_pool = [
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop&q=60"
+]
+bios_pool = [
+    "Люблю каву, гарну музику та довгі прогулянки.",
+    "Шукаю однодумців для спілкування та приємних зустрічей.",
+    "Працюю, розвиваюсь, у вільний час подорожую Україною.",
+    "Завжди за добрий гумор та нові знайомства ✌️",
+    "Ціную щирість, чесність та відкритість у людях.",
+    "Люблю кіно, кавунів та затишні вечори вдома."
+]
+
+import random
+for i in range(3051, 3105):
+    USERS_DB[i] = {
+        "name": random.choice(names_pool),
+        "age": random.randint(18, 29),
+        "city": random.choice(cities_pool),
+        "photo_url": random.choice(photos_pool),
+        "bio": random.choice(bios_pool),
+        "is_vip": False,
+        "likes_received": random.randint(2, 25)
+    }
 
 class RegistrationStates(StatesGroup):
     waiting_for_name = State()
@@ -259,7 +327,7 @@ async def swipe_callback(callback: CallbackQuery):
     if action == "like":
         if target_id in USERS_DB:
             USERS_DB[target_id]["likes_received"] += 1
-            if target_id > 2000:
+            if target_id > 5000:
                 try:
                     await bot.send_message(
                         target_id, 
@@ -294,7 +362,7 @@ async def swipe_callback(callback: CallbackQuery):
             f"📝 <b>Опис:</b> {target['bio'] if target['bio'] else 'Користувач не додав опис.'}"
         )
         
-        await bot.send_photo(
+        await bot.bot.send_photo(
             chat_id=callback.message.chat.id,
             photo=photo_source,
             caption=card_caption,
@@ -355,7 +423,7 @@ async def stats_handler(message: Message):
     )
 
 async def handle_ping(request):
-    return web.Response(text="UA-LOVEBOT-DAVINCHIK-ONLINE")
+    return web.Response(text="UA-LOVEBOT-100-ONLINE")
 
 async def start_web_server():
     app = web.Application()
